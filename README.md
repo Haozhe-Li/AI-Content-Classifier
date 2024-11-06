@@ -1,6 +1,12 @@
 # AI Content Detector
 
-AI Content Detector is a tool designed to classify text as either AI-generated or human-written. It leverages advanced machine learning models to analyze text and provide detailed reports on its origin.
+AI Content Detector is a tool designed to classify text as either AI-generated or human-written. 
+
+
+
+## Demo
+
+![website_snapshot](./assets/website_snapshot.png)
 
 ## Features
 
