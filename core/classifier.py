@@ -17,22 +17,23 @@ class AIContentClassifier:
         self.stride = 512
 
     def get_result(self, result):
-        pplx_map = result["pplx_map"]
-        threshold = result["average_pplx"]
         likelihood_score = result["likelihood_score"]
 
-        if threshold < 60 and likelihood_score > 0.5:
+        if likelihood_score > 0.8:
             label = 1
-            return "This text has been classified as AI generated.", label
-        elif (threshold < 80 and likelihood_score > 0.5) or likelihood_score > 0.6:
+            return "We are highly confident that this text is AI-generated.", label
+        elif likelihood_score >= 0.5 and likelihood_score <= 0.8:
             label = 1
             return (
-                "This text will be classified as a mix of AI-generated and human-written. The highlighted parts in the detailed report below indicate which sentences are most likely AI-generated.",
+                "This text may be AI-generated. In most cases, AI-generated content could be mixed with human-written content.",
                 label,
             )
+        elif likelihood_score > 0.2 and likelihood_score < 0.5:
+            label = 0
+            return "This text may be human-written, but we are not confident with the result.", label
         else:
             label = 0
-            return "This text has been classified as human-written.", label
+            return "We are confident that this text is human-written.", label
 
     async def get_pplx_map(self, lines):
         pplx_map = OrderedDict()
@@ -48,7 +49,10 @@ class AIContentClassifier:
         }
         return result
 
-    async def get_likelihood(self, pplx_map: dict):
+    async def get_likelihood(self, result: dict):
+        pplx_map = result["pplx_map"]
+        average_pplx = result["average_pplx"]
+        burstiness = result["burstiness"]
         likelihood_score = 0
         consecutive_count = 0
 
@@ -62,8 +66,18 @@ class AIContentClassifier:
             if consecutive_count >= 3:
                 likelihood_score += 1
 
+        if average_pplx < 60:
+            likelihood_score += 1
+        elif average_pplx < 80:
+            likelihood_score += 0.5
+
         likelihood_score = likelihood_score / len(pplx_map)
-        return round(min(max(likelihood_score, 0), 1), 2)
+
+        factor = 2
+        if likelihood_score >= 0.5:
+            return round(min(1, likelihood_score ** (1/factor)), 2)
+        else:
+            return round(max(0, likelihood_score ** factor), 2)
 
     async def classify(self, sentence):
         lines = await clean_and_segment_text(sentence)
@@ -87,7 +101,7 @@ We are confident that the <span style="background-color: rgb(79,70,229,0.5)">hig
                 "pplx_map": {},
             }
         result = await self.get_pplx_map(lines)
-        result["likelihood_score"] = await self.get_likelihood(result["pplx_map"])
+        result["likelihood_score"] = await self.get_likelihood(result)
         description, label = self.get_result(result)
         result["label"] = label
         result["description"] = description

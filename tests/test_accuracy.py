@@ -45,7 +45,7 @@ async def test_accuracy():
     for model, accuracy in model_accuracies.items():
         print(f"Accuracy for {model}: {accuracy:.2f}")
 
-    assert overall_accuracy >= 0.8, "Overall accuracy is below 80%"
+    assert overall_accuracy >= 0.85, "Overall accuracy is below 85%"
 
 if __name__ == "__main__":
     asyncio.run(test_accuracy())
