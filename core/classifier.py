@@ -1,12 +1,11 @@
 import torch
-import re
 from transformers import GPT2LMHeadModel, GPT2TokenizerFast
 from collections import OrderedDict
 import asyncio
 import json
 from openai import OpenAI
 import os
-from core.utils import render_sentence
+from core.utils import render_sentence, clean_and_segment_text
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -53,18 +52,8 @@ class AIContentClassifier:
             return "This text has been classified as human-written.", label
 
     async def pplx_method(self, lines):
-        offset = ""
         pplx_maps = OrderedDict()
         for line in lines:
-            if not re.search("[a-zA-Z0-9]+", line):
-                continue
-            if offset:
-                line = offset + line
-                offset = ""
-            line = line.strip()
-            if line[-1] in ["[", "("]:
-                offset = line[-1]
-                line = line[:-1]
             ppl = await self.get_ppl(line)
             if ppl == -1:
                 continue
@@ -111,21 +100,8 @@ class AIContentClassifier:
         )
 
     async def classify(self, sentence):
-        """
-        Takes in a sentence split by full stop
-        and print the perplexity of the total sentence
-
-        split the lines based on full stop and find the perplexity of each sentence and print
-        average perplexity
-
-        Burstiness is the max perplexity of each sentence
-        """
-        total_valid_char = sum(len(x) for x in re.findall("[a-zA-Z0-9]+", sentence))
-        sentence = re.sub(r"[^a-zA-Z0-9\s\.\?\!\,\:\'\"\(\)\[\]]", "", sentence)
-        lines = re.split(r"(?<=[.?!][ \[\(])|(?<=\n)\s*", sentence)
-        lines = list(filter(lambda x: x and len(x) > 0, lines))
-
-        if len(lines) < 5 or total_valid_char < 100:
+        lines = await clean_and_segment_text(sentence)
+        if len(lines) < 5:
             return {
                 "render_sentence": f"""
 <h1>Your Detailed Report</h1>

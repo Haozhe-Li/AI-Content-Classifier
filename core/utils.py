@@ -1,3 +1,12 @@
+from sentencex import segment
+from strip_markdown import strip_markdown
+
+async def clean_and_segment_text(text: str) -> list:
+    text = strip_markdown(text)
+    lines = list(segment(language="", text=text))
+    lines = [line.replace("\n", " ") for line in lines]
+    return lines
+
 def render_sentence(results) -> str:
     pplx_map = results["pplx_maps"]
     label = results["label"]
