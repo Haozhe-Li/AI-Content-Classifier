@@ -61,8 +61,8 @@ To use the AI Content Detector, follow these steps:
     - Click the "Detect" button to start the classification process.
     - Wait for the analysis to complete. This usually takes a few seconds.
 
-3. **Review Results**:
-    - The results will be displayed on the screen.
+3. **Review result**:
+    - The result will be displayed on the screen.
     - AI-generated content will be highlighted for easy identification.
     - A detailed report will be provided, showing the likelihood of the text being AI-generated or human-written.
 

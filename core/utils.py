@@ -8,13 +8,9 @@ async def clean_and_segment_text(text: str) -> list:
     return lines
 
 def render_sentence(results) -> str:
-    pplx_map = results["pplx_maps"]
+    pplx_map = results["pplx_map"]
     label = results["label"]
-    likelihood_score = (
-        results["likelihood_score"]
-        if results["likelihood_score"] != -1
-        else "N/A (Not available yet)"
-    )
+    likelihood_score = results["likelihood_score"]
     average_pplx = results["average_pplx"]
     burstiness = results["burstiness"]
     description = results["description"]

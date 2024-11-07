@@ -1,6 +1,5 @@
 gradio==5.4.0
 transformers==4.46.2
 torch==2.5.1
-openai==1.54.3
 sentencex==0.6.1
 strip-markdown==1.3
