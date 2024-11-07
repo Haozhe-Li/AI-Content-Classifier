@@ -6,7 +6,9 @@ AI Content Detector is a tool designed to classify text as either AI-generated o
 
 ## Demo
 
-![website_snapshot](./assets/website_snapshot.png)
+Online demo is available! Click below to try AI Content Detector
+
+[![website_snapshot](./assets/website_snapshot.png)](https://zeroai.haozheli.com)
 
 ## Features
 
