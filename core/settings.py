@@ -54,11 +54,3 @@ To harness AI's benefits while mitigating its risks, robust frameworks for ethic
 human_text = """
 Following James's accession to the English throne in 1603, Percy became disenchanted with the new king, who he believed had reneged on his promises of toleration for English Catholics. His meeting in June 1603 with Robert Catesby, a religious zealot similarly unimpressed with the new royal Stuart dynasty, led the following year to his joining Catesby's conspiracy to kill the king and his ministers by blowing up the House of Lords with gunpowder. Percy helped fund the group and secured the leases to certain properties in London, one of which was the undercroft directly beneath the House of Lords, in which the gunpowder was finally placed. The conspirators also planned to instigate an uprising in the Midlands and to simultaneously kidnap James's daughter, Princess Elizabeth. Percy was to remain in London and secure the capture of her brother, Prince Henry.
 """
-
-mixed_text = """
-Artificial intelligence (AI), in its broadest sense, is intelligence exhibited by machines, particularly computer systems. It is a field of research in computer science that develops and studies methods and software that enable machines to perceive their environment and use learning and intelligence to take actions that maximize their chances of achieving defined goals.Such machines may be called AIs.
-
-AI technologies, such as machine learning, natural language processing, and computer vision, have found applications across diverse fields. In healthcare, AI aids in diagnosing diseases, personalizing treatment plans, and managing patient data. In finance, it enhances fraud detection, algorithmic trading, and customer service through chatbots. AI is also revolutionizing transportation with the development of autonomous vehicles, promising safer and more efficient travel.
-
-Despite its potential, AI raises ethical and societal concerns. Issues related to privacy, bias, and job displacement need careful consideration. AI systems can inadvertently perpetuate biases present in their training data, leading to unfair outcomes. Moreover, the automation of tasks could disrupt labor markets, necessitating a rethinking of workforce development and education.
-"""

@@ -2,8 +2,8 @@ import torch
 from transformers import GPT2LMHeadModel, GPT2TokenizerFast
 from collections import OrderedDict
 import os
-import joblib
-from core.utils import render_sentence, clean_and_segment_text
+from core.model.load_model import RFModel
+from core.utils import render_result_to_html, clean_and_segment_text
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -13,7 +13,6 @@ class AIContentClassifier:
         self,
         device="cpu",
         model_id="gpt2",
-        ml_model_path=os.path.join(os.path.dirname(__file__), "ml_model.pkl"),
     ):
         self.device = device
         self.model_id = model_id
@@ -21,29 +20,15 @@ class AIContentClassifier:
         self.tokenizer = GPT2TokenizerFast.from_pretrained(model_id)
         self.max_length = self.model.config.n_positions
         self.stride = 512
-        self.ml_model = joblib.load(ml_model_path)
+        self.ml_model = RFModel().load_model()
 
     def get_result(self, result):
         likelihood_score = result["likelihood_score"]
 
-        if likelihood_score > 0.8:
-            label = 1
-            return "We are highly confident that this text is AI-generated.", label
-        elif likelihood_score >= 0.5 and likelihood_score <= 0.8:
-            label = 1
-            return (
-                "This text may be AI-generated. In most cases, AI-generated content could be mixed with human-written content.",
-                label,
-            )
-        elif likelihood_score > 0.2 and likelihood_score < 0.5:
-            label = 0
-            return (
-                "This text may be human-written, but we are not confident with the result.",
-                label,
-            )
+        if likelihood_score >= 0.5:
+            return "AI-generated", 1
         else:
-            label = 0
-            return "We are confident that this text is human-written.", label
+            return "Human-generated", 0
 
     async def get_pplx_map(self, lines):
         pplx_map = OrderedDict()
@@ -87,7 +72,7 @@ class AIContentClassifier:
         lines = await clean_and_segment_text(sentence)
         if len(lines) < 5:
             return {
-                "render_sentence": f"""
+                "render_result_to_html": f"""
 <h1>Your Detailed Report</h1>
 
 <h2>Summary</h2>
@@ -109,7 +94,7 @@ We are confident that the <span style="background-color: rgb(79,70,229,0.5)">hig
         description, label = self.get_result(result)
         result["label"] = label
         result["description"] = description
-        result["render_sentence"] = render_sentence(result)
+        result["render_result_to_html"] = render_result_to_html(result)
         return result
 
     async def get_ppl(self, sentence):

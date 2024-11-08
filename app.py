@@ -8,14 +8,14 @@ classifier = AIContentClassifier()
 async def main(input_text):
     result = await classifier.classify(input_text)
     description = result["description"]
-    render_sentence = result["render_sentence"]
+    render_result_to_html = result["render_result_to_html"]
     gr.Info("Your result is ready below.", duration=5, title="Done!")
     gr.Warning(
         "Please noted that result may not be accurate, further investigation is needed.",
         duration=10,
         title="Disclaimer",
     )
-    return description, render_sentence
+    return description, render_result_to_html
 
 
 async def load_gpt_text():
@@ -31,11 +31,6 @@ async def load_llama_text():
 async def load_human_text():
     gr.Info("Human Text is loaded", duration=2, title="Done!")
     return human_text
-
-
-async def load_mixed_text():
-    gr.Info("Mixed Text is loaded", duration=2, title="Done!")
-    return mixed_text
 
 
 def clear_all():
@@ -56,8 +51,6 @@ with gr.Blocks(title="AI Content Classifier", theme=gr.themes.Soft()) as demo:
         llama_text_btn.click(load_llama_text, inputs=[], outputs=[input_text])
         human_text_btn = gr.Button("Human")
         human_text_btn.click(load_human_text, inputs=[], outputs=[input_text])
-        mixed_text_btn = gr.Button("Mixed")
-        mixed_text_btn.click(load_mixed_text, inputs=[], outputs=[input_text])
     detect_button = gr.Button("Detect", variant="primary")
     clear_button = gr.Button("Clear", variant="stop")
     output_text = gr.Textbox(label="Classifier", value="Your result will appear here")

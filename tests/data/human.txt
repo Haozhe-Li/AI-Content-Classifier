@@ -199,3 +199,21 @@ the highest score in the table. We have found a
 value for this constant that maintains a reasonable
 speed for the system without compromising accu-
 racy.
+
+------
+
+Abstract
+
+We show evidence of particle acceleration at GEV energies associated directly with protons from the prompt emission of a long-duration M6-class solar flare on July 17, 2023, rather than from protons acceleration by shocks from its associated Coronal Mass Ejection (CME), which erupted with a speed of 1342 km/s. Solar Energetic Particles (SEP) accelerated by the blast have reached Earth, up to an almost S3 (strong) category of a radiation storm on the NOAA scale. Also, we show a temporal correlation between the fast rising of GOES-16 proton and muon excess at ground level in the count rate of the New-Tupi muon detector at the central SAA region. A Monte Carlo spectral analysis based on muon excess at New-Tupi is consistent with the acceleration of electrons and protons (ions) up to relativistic energies (GeV energy range) in the impulsive phase of the flare. In addition, we present another two marginal particle excesses (with low confidence) at ground-level detectors in correlation with the solar flare prompt emission.
+
+------
+
+The speech signal is a nonstationary process with multiple components that vary in time and frequency. Classical stationary analyses are unable to represent these variations accurately, whereas time–frequency representations (TFR’s) allow a more precise description of nonstationary signals.
+
+The spectrogram is the oldest TFR [12]. Spectrogram images are computed by concatenating spectra obtained from consecutive short time Fourier transforms (STFT). This transformation assumes that the signal is quasistationary for the length of the window, but because the time and frequency resolutions are inversely proportional (Heisenberg Gabor inequality), small analysis windows lead to poor localization of the frequency components and vice versa, as good resolution in both the time domain and the frequency domain in the same image is not possible. In practice, narrowband spectrograms are used for good frequency resolution while wideband spectrograms allow good temporal resolution of speech signals. There are two possible ways to overcome the limitations of conventional spectrograms.
+
+------
+
+IV. CONCLUSION
+
+We show that the reassigned spectrogram allows a better joint TFR of speech signals than the classical spectrogram. The joint resolution is less sensitive to the size of the window than the normal spectrogram. The algorithm is efﬁcient, particularly since it allows shorter windows than necessary for the equivalent DFT to be used. The reassigned spectrogram is a powerful tool for the TFR of speech signals because it is able to simultaneously represent temporal features, such as plosive onsets and spectral features, such as harmonic structure of speech sounds. The examples suggest that the reassigned method may be useful for speech processing tasks like pitch extraction or formant tracking. Preliminary results comparing processing based on the reassigned spectrogram with conventional methods for formant tracking are encouraging [14].
