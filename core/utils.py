@@ -11,7 +11,7 @@ def render_sentence(results) -> str:
     pplx_map = results["pplx_map"]
     label = results["label"]
     likelihood_score = results["likelihood_score"]
-    average_pplx = results["average_pplx"]
+    average_pplx = results["average_pplx"] if results["average_pplx"] < 40 else 40
     burstiness = results["burstiness"]
     description = results["description"]
     result = f"""
@@ -24,7 +24,7 @@ def render_sentence(results) -> str:
 We are confident that the <span style="background-color: rgb(79,70,229,0.5)">highlighted text</span> is AI Generated.<br><br>
 """
     for line, pplx in pplx_map.items():
-        if pplx < average_pplx and label != 0:
+        if (pplx < average_pplx and label != 0) or likelihood_score > 0.95 :
             result += (
                 f"""<span style="background-color: rgb(79,70,229,0.5)">{line}</span> """
             )
