@@ -82,7 +82,7 @@ More text is needed.
 We are confident that the <span style="background-color: rgb(79,70,229,0.5)">highlighted text</span> is AI Generated.<br><br>
 {sentence}
 """,
-                "description": "Please enter a longer text with at least 100 characters.",
+                "description": "Invalid input",
                 "label": 0,
                 "likelihood_score": 0,
                 "average_pplx": 0,

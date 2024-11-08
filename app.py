@@ -1,5 +1,5 @@
 from core.classifier import AIContentClassifier
-from core.settings import llama_text, gpt_text, human_text, mixed_text, html_placeholder
+from core.settings import llama_text, gpt_text, human_text, html_placeholder
 import gradio as gr
 
 classifier = AIContentClassifier()
@@ -9,6 +9,9 @@ async def main(input_text):
     result = await classifier.classify(input_text)
     description = result["description"]
     render_result_to_html = result["render_result_to_html"]
+    if description == "Invalid input":
+        gr.Warning("Invalid input, more text is needed.", title="Error!", duration=5)
+        return description, render_result_to_html
     gr.Info("Your result is ready below.", duration=5, title="Done!")
     gr.Warning(
         "Please noted that result may not be accurate, further investigation is needed.",

@@ -15,13 +15,13 @@ def render_result_to_html(results) -> str:
     burstiness = results["burstiness"]
     summary = """"""
     if likelihood_score >= 0.8:
-        summary += f"<b>We are highly confident that the entire text is AI Generated.</b> The likelihood that it is AI Generated is <b>{likelihood_score}</b>, and the likelihood that it is Human Generated is only {1 - likelihood_score}. This text shows a low level of variation in text complexity, which is a common characteristic of AI generated text."
+        summary += f"<b>We are highly confident that the entire text is AI Generated.</b> The likelihood that it is AI Generated is <b>{likelihood_score}</b>, and the likelihood that it is Human Generated is only <b>{round(1 - likelihood_score, 2)}</b>. This text shows a low level of variation in text complexity, which is a common characteristic of AI generated text."
     elif likelihood_score >= 0.5:
-        summary += f"<b>We are uncertain about the result.</b> The likelihood that it is AI Generated is <b>{likelihood_score}</b>, and the likelihood that it is Human Generated is only {1 - likelihood_score}. This text shows a moderate-high level of variation in text complexity, so we are uncertain about the origin of the text. In most cases, this indicates that it is a mix of AI and human-written text. If we have to make a decision, we would say that the text is <b>AI Generated</b>."
-    elif likelihood_score >= 0.2:
-        summary += f"<b>We are uncertain about the result.</b> The likelihood that it is AI Generated is <b>{likelihood_score}</b>, and the likelihood that it is Human Generated is {1 - likelihood_score}. This text shows a moderate-high level of variation in text complexity, which is a common characteristic of human-generated text. In most cases, this indicates that it is a mix of AI and human-written text. If we have to make a decision, we would say that the text is <b>Human Generated</b>."
+        summary += f"<b>We are uncertain about the result.</b> The likelihood that it is AI Generated is <b>{likelihood_score}</b>, and the likelihood that it is Human Generated is only <b>{round(1 - likelihood_score, 2)}</b>. This text shows a moderate-high level of variation in text complexity, so we are uncertain about the origin of the text. In most cases, this indicates that it is a mix of AI and human-written text. If we have to make a decision, we would say that the text is <b>AI Generated</b>."
+    elif likelihood_score >= 0.3:
+        summary += f"<b>We are uncertain about the result.</b> The likelihood that it is AI Generated is <b>{likelihood_score}</b>, and the likelihood that it is Human Generated is <b>{round(1 - likelihood_score, 2)}</b>. This text shows a moderate-high level of variation in text complexity, which is a common characteristic of human-generated text. In most cases, this indicates that it is a mix of AI and human-written text. If we have to make a decision, we would say that the text is <b>Human Generated</b>."
     else:
-        summary += f"<b>We are highly confident that the entire text is Human Generated.</b> The likelihood that it is AI Generated is <b>{likelihood_score}</b>, and the likelihood that it is Human Generated is only {1 - likelihood_score}. This text shows a high level of variation in text complexity, which is a common characteristic of human-generated text."
+        summary += f"<b>We are highly confident that the entire text is Human Generated.</b> The likelihood that it is AI Generated is <b>{likelihood_score}</b>, and the likelihood that it is Human Generated is only <b>{round(1 - likelihood_score, 2)}</b>. This text shows a high level of variation in text complexity, which is a common characteristic of human-generated text."
     result = f"""
 <h1>Your Detailed Report</h1>
 
@@ -31,8 +31,11 @@ def render_result_to_html(results) -> str:
 <h2>Highlighted Text</h2>
 We are confident that the <span style="background-color: rgb(79,70,229,0.5)">highlighted text</span> is AI Generated.<br><br>
 """
+    if likelihood_score > 0.95:
+        result += f"""<span style="background-color: rgb(79,70,229,0.5)">{"".join(pplx_map.keys())}</span>"""
+        return result.strip()
     for line, pplx in pplx_map.items():
-        if (pplx < display_threshould and label != 0) or likelihood_score > 0.95 :
+        if (pplx < display_threshould and label != 0):
             result += (
                 f"""<span style="background-color: rgb(79,70,229,0.5)">{line}</span> """
             )
