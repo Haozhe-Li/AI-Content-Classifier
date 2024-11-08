@@ -2,19 +2,26 @@ import torch
 from transformers import GPT2LMHeadModel, GPT2TokenizerFast
 from collections import OrderedDict
 import os
+import joblib
 from core.utils import render_sentence, clean_and_segment_text
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 class AIContentClassifier:
-    def __init__(self, device="cpu", model_id="gpt2"):
+    def __init__(
+        self,
+        device="cpu",
+        model_id="gpt2",
+        ml_model_path=os.path.join(os.path.dirname(__file__), "ml_model.pkl"),
+    ):
         self.device = device
         self.model_id = model_id
         self.model = GPT2LMHeadModel.from_pretrained(model_id).to(device)
         self.tokenizer = GPT2TokenizerFast.from_pretrained(model_id)
         self.max_length = self.model.config.n_positions
         self.stride = 512
+        self.ml_model = joblib.load(ml_model_path)
 
     def get_result(self, result):
         likelihood_score = result["likelihood_score"]
@@ -30,7 +37,10 @@ class AIContentClassifier:
             )
         elif likelihood_score > 0.2 and likelihood_score < 0.5:
             label = 0
-            return "This text may be human-written, but we are not confident with the result.", label
+            return (
+                "This text may be human-written, but we are not confident with the result.",
+                label,
+            )
         else:
             label = 0
             return "We are confident that this text is human-written.", label
@@ -49,35 +59,29 @@ class AIContentClassifier:
         }
         return result
 
-    async def get_likelihood(self, result: dict):
-        pplx_map = result["pplx_map"]
-        average_pplx = result["average_pplx"]
-        burstiness = result["burstiness"]
-        likelihood_score = 0
-        consecutive_count = 0
-
-        for pplx in pplx_map.values():
-            if pplx < 40:
-                likelihood_score += 1
-                consecutive_count += 1
+    def has_three_consecutive_low_pplx(self, pplx_list, threshold=40, count=3):
+        consecutive = 0
+        for pplx in pplx_list:
+            if pplx < threshold:
+                consecutive += 1
+                if consecutive >= count:
+                    return 1
             else:
-                consecutive_count = 0
+                consecutive = 0
+        return 0
 
-            if consecutive_count >= 3:
-                likelihood_score += 1
-
-        if average_pplx < 60:
-            likelihood_score += 1
-        elif average_pplx < 80:
-            likelihood_score += 0.5
-
-        likelihood_score = likelihood_score / len(pplx_map)
-
-        factor = 2
-        if likelihood_score >= 0.5:
-            return round(min(1, likelihood_score ** (1/factor)), 2)
-        else:
-            return round(max(0, likelihood_score ** factor), 2)
+    async def get_likelihood(self, result: dict):
+        low_pplx_flag = self.has_three_consecutive_low_pplx(
+            list(result["pplx_map"].values())
+        )
+        features = [
+            result["average_pplx"],
+            result["burstiness"],
+            len(result["pplx_map"]),
+            low_pplx_flag,
+        ]
+        likelihood_score = self.ml_model.predict_proba([features])[0][1]
+        return round(likelihood_score, 2)
 
     async def classify(self, sentence):
         lines = await clean_and_segment_text(sentence)

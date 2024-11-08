@@ -72,3 +72,130 @@ Development and financing
 The premise for Interstellar was conceived by the producer Lynda Obst and the theoretical physicist Kip Thorne, who collaborated on the film Contact (1997), and had known each other since Carl Sagan set them up on a blind date.[8][9] The two conceived a scenario, based on Thorne's work, about "the most exotic events in the universe suddenly becoming accessible to humans", and attracted Steven Spielberg's interest in directing.[10] The film began development in June 2006, when Spielberg and Paramount Pictures announced plans for a science-fiction film based on an eight-page treatment written by Obst and Thorne. Obst was attached to produce.[11][12] By March 2007, Jonathan Nolan was hired to write a screenplay.[13]
 
 After Spielberg moved his production studio, DreamWorks, from Paramount to Walt Disney Studios in 2009, Paramount needed a new director for Interstellar. Jonathan Nolan recommended his brother Christopher, who joined the project in 2012.[14] Christopher Nolan met with Thorne, then attached as executive producer, to discuss the use of spacetime in the story.[15] In January 2013, Paramount and Warner Bros. announced that Christopher Nolan was in negotiations to direct Interstellar.[16] Nolan said he wanted to encourage the goal of human spaceflight,[17] and intended to merge his brother's screenplay with his own.[18] By the following March, Nolan was confirmed to direct Interstellar, which would be produced under his label Syncopy and Lynda Obst Productions.[19] The Hollywood Reporter said Nolan would earn a salary of $20 million against 20% of the total gross.[20] To research for the film, Nolan visited NASA and the private space program at SpaceX.[15]
+
+------
+
+Mario Party DS is a 2007 party video game developed by Hudson Soft and published by Nintendo for the Nintendo DS. It is the second handheld game in the Mario Party series, as well as the last game in the series to be developed by Hudson Soft, as all subsequent games have been developed by NDcube. Like most installments in the Mario Party series, Mario Party DS features characters of the Mario franchise competing in a board game with a variety of minigames, many of which utilize the console's unique features, including its built-in microphone, dual screen and touch screen mechanics, and motion sensitivity. Up to four human players can compete at a time, though characters can also be computer-controlled. Although Mario Party DS received mixed reviews, with general praise for its minigame variety and criticism for its absence of an online multiplayer mode, the game has sold more than nine million units worldwide, making it the 11th-best-selling game for the Nintendo DS.
+
+------
+
+Theatrical
+Before Interstellar's public release, Paramount CEO Brad Grey hosted a private screening on October 19, 2014, at the AMC Lincoln Square 13 IMAX theater in Manhattan, New York.[87][88] Paramount then showed Interstellar to some of the industry's filmmakers and actors in a first-look screening at the California Science Center on October 22.[89] On the following day, the film was screened at the TCL Chinese Theatre in Los Angeles, California for over 900 members of the Screen Actors Guild.[90] The film premiered on October 26 at the TCL Chinese Theatre in Los Angeles,[91] and in Europe on October 29 at the Odeon Leicester Square in London.[92][93]
+
+Interstellar was released early on November 4 in various 70 mm IMAX film, 70 mm film and 35 mm film theaters, and had a limited release in North America on November 5, with a wide release on November 7.[94] The film was released in Belgium, France, and Switzerland on November 5, the UK on November 7 and in additional territories in the following days.[95] For the limited North American release, Interstellar was projected from 70 mm and 35 mm film in 249 theaters that still supported those formats, including at least forty-one 70 mm IMAX theaters. A 70 mm IMAX projector was installed at the TCL Chinese Theatre in Los Angeles to display the format. The film's wide release expanded to theaters that showed it digitally.[96] Paramount Pictures distributed the film in North America, and Warner Bros. distributed it in the remaining territories.[31] The film was released in over 770 IMAX screens worldwide, which was the largest global release in IMAX cinemas,[97][98] until surpassed by Universal Pictures' Furious 7 (2015) with 810 IMAX theaters.[99]
+
+------
+
+Computational music analysis is an important
+project for a number of reasons. From a psycho-
+logical point of view, systems for performing mu-
+sical processes may shed light on how human
+listeners perform such processes, just as computa-
+tional work in vision and problem solving has led
+to important insights in those domains. While re-
+cent research has revealed much about listeners’
+mental representations of music (Dowling and
+Harwood 1986; Butler 1992), there is much to be
+learned in this area. There are practical applica-
+tions to automatic music analysis as well. Many
+kinds of music-related tasks that computers might
+perform—for example, producing a score from raw
+pitch data, detecting probable errors in a score,
+searching a melodic database for matches to a
+query, generating an accompaniment for a melody,
+or performing statistical analysis of musical styles
+for the purposes of automatic composition—re-
+quire an ability to process music and extract vari-
+ous kinds of structure and information from it.
+Extracting this information proves to be a highly
+complex task.
+
+------
+
+Before we begin, a word is needed about the input
+to the program. The input we assume is a “note
+list,” giving the pitch (in integer notation, middle
+C = 60) and the on-time and off-time (in millisec-
+onds) of a series of notes. It is perhaps easiest to
+think of this as a two-dimensional representation
+with pitch on one axis and time on the other,
+similar to a piano roll. Each event is represented as
+a line segment on this plane, the length of the seg-
+ment corresponding to the note’s duration. The
+program requires no information beyond this: in
+particular, it does not require other information
+commonly available in scores, such as bar lines,
+key signatures, rhythmic notation, and the spell-
+ings of pitches.
+
+------
+
+The regularity rule brings up an important fea-
+ture of our system. In the past, computational
+analysis of rhythm has generally been divided into
+two problems. One is quantization: the rounding
+off of durations and time points in a piece to mul-
+tiples of a common beat (see, for example, Desain
+and Honing 1992). The other is metrical analysis:
+imposing higher levels of beats on an existing
+lower level. Models that assume a quantized input
+(such as Lerdahl and Jackendoff’s) are really only
+addressing the second problem. However, an im-
+portant recent realization of music artificial intel-
+ligence has been that quantization and meter
+finding are really part of the same process. In im-
+posing a low level of beats on a piece of music,
+marking the onsets of events, one is in effect iden-
+tifying their position and duration in terms of inte-
+ger values of those beats. Most notably, Rosenthal
+(1992) proposed a model that accomplishes both
+low-level quantization and medium-level meter
+finding. Our system is similar in this respect, per-
+forming both quantization and meter finding in a
+single process.
+
+------
+
+Now consider measure 4. According to the
+compatibility rule, D would be the preferred root
+for this segment (since the root D results in a
+pitch-root relationship of 1 with pitch D). Why is
+G more preferred? Intuitively, G is a “closer” har-
+mony to C than D is, and should therefore be pre-
+ferred in such cases. Here we introduce a simple
+spatial model: the line of fifths, similar to the
+circle of fifths, but extending infinitely in either
+direction as shown in Figure 4. Choosing a root
+for a segment is therefore a matter of mapping it
+onto a point on the line of fifths. Given this
+model, we can say that there is a preference for
+choosing roots so that roots of nearby segments
+are close together on the line. This leads to a
+third rule:
+
+------
+
+Regarding the harmonic program, the simple al-
+gorithm described above can handle the compat-
+ibility rule, the ornamental dissonance rule, and
+the strong-beat rule (which penalizes changes of
+harmony, depending on the strength of the beat).
+The dynamic programming table at each segment
+only needs to be a one-dimensional array; that di-
+mension is the choice of root of the segment. To
+incorporate the harmonic variance rule and the
+pitch-variance rule (determining the spellings of
+pitches), things get a lot more complex, and we
+end up with a four-dimensional table (rather than
+a one-dimensional table) to fill in. Space limita-
+tions prevent us from giving the details here.
+In practice, the computation described above is
+intractable, because the four-dimensional table
+gets too large. We handle this by pruning the table
+for a given segment immediately after the table for
+that segment is constructed. We simply keep only
+those elements that are within some constant of
+the highest score in the table. We have found a
+value for this constant that maintains a reasonable
+speed for the system without compromising accu-
+racy.
