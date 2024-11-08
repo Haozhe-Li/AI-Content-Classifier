@@ -29,12 +29,13 @@ async def test_accuracy():
             for i, segment in enumerate(segments):
                 segment = segment.strip()
                 if segment:
-                    print(f"Classifying segment {i+1} of {file}")
                     result = await detector.classify(segment)
                     label = result["label"]
                     if label == expected_labels[file]:
                         correct_predictions += 1
                         model_accuracies[file]["correct"] += 1
+                    else:
+                        print(f"Incorrect prediction on {i + 1} of {file}, expected {expected_labels[file]} but got {label}. The likelihood score was {result['likelihood_score']}. Average PPLX was {result['average_pplx']}.")
                     model_accuracies[file]["total"] += 1
                     total_predictions += 1
 
