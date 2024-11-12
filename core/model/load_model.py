@@ -10,3 +10,6 @@ class RFModel:
 
     def load_model(self):
         return self.model
+    
+    def predict(self, features: list):
+        return self.model.predict_proba([features])[0][1]

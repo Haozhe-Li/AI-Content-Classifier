@@ -20,7 +20,7 @@ class AIContentClassifier:
         self.tokenizer = GPT2TokenizerFast.from_pretrained(model_id)
         self.max_length = self.model.config.n_positions
         self.stride = 512
-        self.ml_model = RFModel().load_model()
+        self.ml_model = RFModel()
 
     def get_result(self, result):
         likelihood_score = result["likelihood_score"]
@@ -65,7 +65,7 @@ class AIContentClassifier:
             len(result["pplx_map"]),
             low_pplx_flag,
         ]
-        likelihood_score = self.ml_model.predict_proba([features])[0][1]
+        likelihood_score = self.ml_model.predict(features)
         return round(likelihood_score, 2)
 
     async def classify(self, sentence):
