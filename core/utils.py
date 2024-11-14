@@ -32,7 +32,7 @@ def render_result_to_html(results) -> str:
 We are confident that the <span style="background-color: rgb(79,70,229,0.5)">highlighted text</span> is AI Generated.<br><br>
 """
     for line, pplx in pplx_map.items():
-        if (pplx < display_threshould and label != 0) or likelihood_score >= 0.95:
+        if (pplx < display_threshould and label != 0) or likelihood_score >= 0.90:
             result += (
                 f"""<span style="background-color: rgb(79,70,229,0.5)">{line}</span> """
             )
