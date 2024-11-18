@@ -70,7 +70,7 @@ class AIContentClassifier:
 
     async def classify(self, sentence):
         lines = await clean_and_segment_text(sentence)
-        if len(lines) < 5:
+        if len(lines) < 5 or len(" ".join(lines)) < 100:
             return {
                 "render_result_to_html": f"""
 <h1>Your Detailed Report</h1>
