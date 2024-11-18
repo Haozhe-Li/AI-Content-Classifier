@@ -14,7 +14,7 @@ Online demo is available! Click below to try AI Content Detector
 
 - **Easy to Use**: Get your result instantly and review it easily. AI-generated content will be highlighted for quick identification.
 - **Universal Compatibility**: Works with most AI models, including GPTs, LLaMas, Claude, GroK, QWen, GLMs, and more.
-- **High Accuracy**: Duo algorithm ensures accuracy higher than 90% in most cases.
+- **High Accuracy**: Duo algorithm ensures accuracy higher than 98% in on LLaMa 3 8b Model.
 - **Free to Use**: No limitations, no hidden fees, and no ads ever.
 
 ## Installation
@@ -36,18 +36,12 @@ Online demo is available! Click below to try AI Content Detector
     pip install -r requirements.txt
     ```
 
-4. **Set up environment variables**:
-    Create a `.env` file in the root directory and add your OpenAI API key:
-    ```env
-    OPENAI_API_KEY=your_openai_api_key
-    ```
-
 5. **Run the application**:
     ```sh
-    python app.py
+    python3 app.py
     ```
 
-Your AI Content Detector should now be up and running.
+Your AI Content Detector should now be up and running at `localhost:7680`. 
 
 ## Usage
 
@@ -63,6 +57,7 @@ To use the AI Content Detector, follow these steps:
 
 3. **Review result**:
     - The result will be displayed on the screen.
+    - An likelihood score between 0-1 will be given.
     - AI-generated content will be highlighted for easy identification.
     - A detailed report will be provided, showing the likelihood of the text being AI-generated or human-written.
 
