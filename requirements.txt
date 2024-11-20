@@ -1,7 +1,9 @@
-gradio==5.4.0
-transformers==4.46.2
-torch==2.5.1
-sentencex==0.6.1
-strip-markdown==1.3
-joblib==1.4.2
-scikit-learn==1.5.2
+gradio==5.4.0 # UI
+transformers==4.46.2 # For calculating perplexity
+torch==2.5.1 # For calculating perplexity
+sentencex==0.6.1 # For sentence extraction and tokenization
+strip-markdown==1.3 # For removing markdown from text
+joblib==1.4.2 # For saving and loading models
+scikit-learn==1.5.2 # For training RF model
+PyMuPDF==1.24.14 # For extracting text from PDFs
+python-docx==1.1.2 # For extracting text from DOCX files
