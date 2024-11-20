@@ -6,7 +6,7 @@ from core.model.load_model import RFModel
 from core.utils import render_result_to_html, clean_and_segment_text
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+DEVICE = os.getenv("DEVICE", "cuda" if torch.cuda.is_available() else "cpu")
 
 
 class AIContentClassifier:

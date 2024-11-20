@@ -1,5 +1,6 @@
 from core.classifier import AIContentClassifier
 from core.settings import llama_text, gpt_text, human_text, html_placeholder
+from core.utils import extract_text_from_pdf, extract_text_from_docx
 import gradio as gr
 
 classifier = AIContentClassifier()
@@ -40,6 +41,21 @@ def clear_all():
     gr.Info("All fields are cleared", title="Done!", duration=2)
     return "", "Your result will appear here", html_placeholder
 
+def parse_file(file):
+    try:
+        file_path = file.name
+        if file_path.endswith(".pdf"):
+            gr.Info("PDF file is loaded", duration=2, title="Done!")
+            return extract_text_from_pdf(file_path)
+        elif file_path.endswith(".docx"):
+            gr.Info("DOCX file is loaded", duration=2, title="Done!")
+            return extract_text_from_docx(file_path)
+        else:
+            gr.Warning("Invalid file format, only PDF and DOCX are supported.", title="Error!", duration=5)
+            return ""
+    except Exception as e:
+        return ""
+
 
 with gr.Blocks(title="AI Content Classifier", theme=gr.themes.Soft()) as demo:
     input_text = gr.Textbox(
@@ -47,6 +63,7 @@ with gr.Blocks(title="AI Content Classifier", theme=gr.themes.Soft()) as demo:
         lines=10,
         placeholder="Please enter your text here, minimum 100 characters",
     )
+    file_input = gr.File(label="Or upload a file", type="filepath")
     with gr.Row():
         gpt_text_btn = gr.Button("ChatGPT")
         gpt_text_btn.click(load_gpt_text, inputs=[], outputs=[input_text])
@@ -60,5 +77,6 @@ with gr.Blocks(title="AI Content Classifier", theme=gr.themes.Soft()) as demo:
     output_html = gr.HTML(label="Detailed Output", value=html_placeholder)
     detect_button.click(main, inputs=input_text, outputs=[output_text, output_html])
     clear_button.click(clear_all, outputs=[input_text, output_text, output_html])
+    file_input.change(parse_file, inputs=file_input, outputs=[input_text])
 
 demo.launch()

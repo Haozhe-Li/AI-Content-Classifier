@@ -1,11 +1,32 @@
 from sentencex import segment
 from strip_markdown import strip_markdown
+import fitz
+from docx import Document
+
+
+def extract_text_from_pdf(file_path: str) -> str:
+    text = ""
+    with fitz.open(file_path) as pdf:
+        for page_num in range(pdf.page_count):
+            page = pdf[page_num]
+            text += page.get_text()
+    return text
+
+
+def extract_text_from_docx(file_path: str) -> str:
+    text = ""
+    doc = Document(file_path)
+    for para in doc.paragraphs:
+        text += para.text
+    return text
+
 
 async def clean_and_segment_text(text: str) -> list:
     text = strip_markdown(text)
     lines = list(segment(language="", text=text))
     lines = [line.replace("\n", " ") for line in lines]
     return lines
+
 
 def render_result_to_html(results) -> str:
     pplx_map = results["pplx_map"]
@@ -38,5 +59,7 @@ We are confident that the <span style="background-color: rgb(79,70,229,0.5)">hig
             )
         else:
             result += f"{line} "
-    result = result.replace("""</span> <span style="background-color: rgb(79,70,229,0.5)">""", "")
+    result = result.replace(
+        """</span> <span style="background-color: rgb(79,70,229,0.5)">""", ""
+    )
     return result.strip()
