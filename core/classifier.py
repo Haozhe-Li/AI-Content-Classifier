@@ -6,29 +6,22 @@ from core.model.load_model import RFModel
 from core.utils import render_result_to_html, clean_and_segment_text
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 class AIContentClassifier:
-    def __init__(
-        self,
-        device="cpu",
-        model_id="gpt2",
-    ):
+    def __init__(self, device=DEVICE, model_id="gpt2"):
         self.device = device
         self.model_id = model_id
         self.model = GPT2LMHeadModel.from_pretrained(model_id).to(device)
         self.tokenizer = GPT2TokenizerFast.from_pretrained(model_id)
-        self.max_length = self.model.config.n_positions
-        self.stride = 512
         self.ml_model = RFModel()
 
     def get_result(self, result):
         likelihood_score = result["likelihood_score"]
-
-        if likelihood_score >= 0.5:
-            return "AI-generated", 1
-        else:
-            return "Human-generated", 0
+        return (
+            ("AI-generated", 1) if likelihood_score >= 0.5 else ("Human-generated", 0)
+        )
 
     async def get_pplx_map(self, lines):
         pplx_map = OrderedDict()
@@ -101,11 +94,13 @@ We are confident that the <span style="background-color: rgb(79,70,229,0.5)">hig
         try:
             encodings = self.tokenizer(sentence, return_tensors="pt")
             seq_len = encodings.input_ids.size(1)
+            max_length = self.model.config.n_positions
+            stride = 512
 
             nlls = []
             prev_end_loc = 0
-            for begin_loc in range(0, seq_len, self.stride):
-                end_loc = min(begin_loc + self.max_length, seq_len)
+            for begin_loc in range(0, seq_len, stride):
+                end_loc = min(begin_loc + max_length, seq_len)
                 trg_len = end_loc - prev_end_loc
                 input_ids = encodings.input_ids[:, begin_loc:end_loc].to(self.device)
                 target_ids = input_ids.clone()
