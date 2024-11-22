@@ -1,8 +1,6 @@
 import os
 import sys
-import asyncio
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-import asyncio
 import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
@@ -37,7 +35,7 @@ def has_three_consecutive_low_pplx(pplx_list, threshold=40, count=3):
 def extract_features(texts, classifier):
     features = []
     for text in texts:
-        result = asyncio.run(classifier.classify(text))
+        result = classifier.classify(text)
         low_pplx_flag = has_three_consecutive_low_pplx(list(result["pplx_map"].values()))
         features.append([
             result["average_pplx"],

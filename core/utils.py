@@ -21,7 +21,7 @@ def extract_text_from_docx(file_path: str) -> str:
     return text
 
 
-async def clean_and_segment_text(text: str) -> list:
+def clean_and_segment_text(text: str) -> list:
     text = strip_markdown(text)
     lines = list(segment(language="", text=text))
     lines = [line.replace("\n", " ") for line in lines]
