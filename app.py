@@ -6,8 +6,8 @@ import gradio as gr
 classifier = AIContentClassifier()
 
 
-def main(input_text):
-    result = classifier.classify(input_text)
+async def main(input_text):
+    result = await classifier.classify(input_text)
     description = result["description"]
     render_result_to_html = result["render_result_to_html"]
     if description == "Invalid input":
@@ -22,17 +22,17 @@ def main(input_text):
     return description, render_result_to_html
 
 
-def load_gpt_text():
+async def load_gpt_text():
     gr.Info("GPT-4o Text is loaded", duration=2, title="Done!")
     return gpt_text
 
 
-def load_llama_text():
+async def load_llama_text():
     gr.Info("LLaMa 3 70b Text is loaded", duration=2, title="Done!")
     return llama_text
 
 
-def load_human_text():
+async def load_human_text():
     gr.Info("Human Text is loaded", duration=2, title="Done!")
     return human_text
 

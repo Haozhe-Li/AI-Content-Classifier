@@ -1,5 +1,4 @@
 import torch
-import spaces
 from transformers import GPT2LMHeadModel, GPT2TokenizerFast
 from collections import OrderedDict
 import os
@@ -24,11 +23,10 @@ class AIContentClassifier:
             ("AI-generated", 1) if likelihood_score >= 0.5 else ("Human-generated", 0)
         )
 
-    @spaces.GPU
-    def get_pplx_map(self, lines):
+    async def get_pplx_map(self, lines):
         pplx_map = OrderedDict()
         for line in lines:
-            ppl = self.get_ppl(line)
+            ppl = await self.get_ppl(line)
             if ppl == -1:
                 continue
             pplx_map[line] = ppl
@@ -50,7 +48,7 @@ class AIContentClassifier:
                 consecutive = 0
         return 0
 
-    def get_likelihood(self, result: dict):
+    async def get_likelihood(self, result: dict):
         low_pplx_flag = self.has_three_consecutive_low_pplx(
             list(result["pplx_map"].values())
         )
@@ -63,8 +61,8 @@ class AIContentClassifier:
         likelihood_score = self.ml_model.predict(features)
         return round(likelihood_score, 2)
 
-    def classify(self, sentence):
-        lines = clean_and_segment_text(sentence)
+    async def classify(self, sentence):
+        lines = await clean_and_segment_text(sentence)
         if len(lines) < 5 or len(" ".join(lines)) < 100:
             return {
                 "render_result_to_html": f"""
@@ -84,15 +82,15 @@ We are confident that the <span style="background-color: rgb(79,70,229,0.5)">hig
                 "burstiness": 0,
                 "pplx_map": {},
             }
-        result = self.get_pplx_map(lines)
-        result["likelihood_score"] = self.get_likelihood(result)
+        result = await self.get_pplx_map(lines)
+        result["likelihood_score"] = await self.get_likelihood(result)
         description, label = self.get_result(result)
         result["label"] = label
         result["description"] = description
         result["render_result_to_html"] = render_result_to_html(result)
         return result
 
-    def get_ppl(self, sentence):
+    async def get_ppl(self, sentence):
         try:
             encodings = self.tokenizer(sentence, return_tensors="pt")
             seq_len = encodings.input_ids.size(1)

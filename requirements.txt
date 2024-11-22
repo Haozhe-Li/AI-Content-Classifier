@@ -7,4 +7,3 @@ joblib==1.4.2 # For saving and loading models
 scikit-learn==1.5.2 # For training RF model
 PyMuPDF==1.24.14 # For extracting text from PDFs
 python-docx==1.1.2 # For extracting text from DOCX files
-spaces==0.30.4 # For huggingface space

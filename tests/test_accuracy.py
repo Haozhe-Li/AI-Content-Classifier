@@ -1,11 +1,12 @@
 import os
+import asyncio
 import pytest
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from core.classifier import AIContentClassifier
 
-@pytest
-def test_accuracy():
+@pytest.mark.asyncio
+async def test_accuracy():
     detector = AIContentClassifier()
     data_folder = "./data"
     files = ["human.txt", "gpt4o.txt", "gpt4o-mini.txt", "llama3-8b.txt"]
@@ -28,7 +29,7 @@ def test_accuracy():
             for i, segment in enumerate(segments):
                 segment = segment.strip()
                 if segment:
-                    result = detector.classify(segment)
+                    result = await detector.classify(segment)
                     label = result["label"]
                     if label == expected_labels[file]:
                         correct_predictions += 1
@@ -48,4 +49,4 @@ def test_accuracy():
     assert overall_accuracy >= 0.85, "Overall accuracy is below 85%"
 
 if __name__ == "__main__":
-    test_accuracy()
+    asyncio.run(test_accuracy())
