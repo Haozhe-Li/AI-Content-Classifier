@@ -1,4 +1,5 @@
 import torch
+import spaces
 from transformers import GPT2LMHeadModel, GPT2TokenizerFast
 from collections import OrderedDict
 import os
@@ -89,7 +90,8 @@ We are confident that the <span style="background-color: rgb(79,70,229,0.5)">hig
         result["description"] = description
         result["render_result_to_html"] = render_result_to_html(result)
         return result
-
+    
+    @spaces.GPU
     async def get_ppl(self, sentence):
         try:
             encodings = self.tokenizer(sentence, return_tensors="pt")
