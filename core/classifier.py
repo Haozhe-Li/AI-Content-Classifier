@@ -27,7 +27,7 @@ class AIContentClassifier:
     async def get_pplx_map(self, lines):
         pplx_map = OrderedDict()
         for line in lines:
-            ppl = await self.get_ppl(line)
+            ppl = self.get_ppl(line)
             if ppl == -1:
                 continue
             pplx_map[line] = ppl
@@ -92,7 +92,7 @@ We are confident that the <span style="background-color: rgb(79,70,229,0.5)">hig
         return result
     
     @spaces.GPU
-    async def get_ppl(self, sentence):
+    def get_ppl(self, sentence):
         try:
             encodings = self.tokenizer(sentence, return_tensors="pt")
             seq_len = encodings.input_ids.size(1)
