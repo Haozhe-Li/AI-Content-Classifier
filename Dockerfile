@@ -5,6 +5,7 @@ ENV PYTHONUNBUFFERED True
 ENV APP_HOME /app
 WORKDIR $APP_HOME
 COPY . ./
+COPY core/model/gpt2/ core/model/gpt2/
 
 ENV PORT 8080
 

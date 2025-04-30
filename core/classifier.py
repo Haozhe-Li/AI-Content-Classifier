@@ -13,8 +13,10 @@ class AIContentClassifier:
     def __init__(self, device=DEVICE, model_id="gpt2"):
         self.device = device
         self.model_id = model_id
-        self.model = GPT2LMHeadModel.from_pretrained(model_id).to(device)
-        self.tokenizer = GPT2TokenizerFast.from_pretrained(model_id)
+        # Use local model path for offline deployment
+        local_model_path = os.path.join(os.path.dirname(__file__), "model", "gpt2", "models--gpt2")
+        self.model = GPT2LMHeadModel.from_pretrained(local_model_path).to(device)
+        self.tokenizer = GPT2TokenizerFast.from_pretrained(local_model_path)
         self.ml_model = RFModel()
 
     def get_result(self, result):
